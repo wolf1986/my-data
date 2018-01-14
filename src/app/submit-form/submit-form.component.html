@@ -1,0 +1,35 @@
+<!-- Input fields -->
+<mat-form-field>
+  <input matInput [(ngModel)]="fields.date" placeholder="Date">
+</mat-form-field>
+<br>
+<mat-form-field>
+  <input matInput [(ngModel)]="fields.category" placeholder="Category">
+</mat-form-field>
+<br>
+<mat-form-field>
+  <input matInput [(ngModel)]="fields.sum" placeholder="Sum">
+</mat-form-field>
+<br>
+<mat-form-field>
+  <textarea matInput matTextareaAutosize [(ngModel)]="fields.details" placeholder="Details"></textarea>
+</mat-form-field>
+<div>
+  <button mat-raised-button (click)="onSubmit()" mat-button>Submit</button>
+</div>
+
+<mat-card>
+  <mat-form-field>
+    <input matInput [(ngModel)]="answer" placeholder="Who has the best dev tutorials?">
+  </mat-form-field>
+
+  <br>
+
+  <button mat-raised-button (click)="showAnswer()">Answer me</button>
+  <!-- <mat-spinner></mat-spinner> -->
+</mat-card>
+
+
+<!-- <mat-card>
+  <h1>{{ answerDisplay }}, you're damn right.</h1>
+</mat-card> -->
