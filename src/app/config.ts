@@ -1,6 +1,6 @@
 export let Config = {
   GoogleAuth: {
-    ClientId: '442618660562-7nlckakrfi4gmtgqg1bnjkganvc28fu8.apps.googleusercontent.com',
+    ClientId: '<<GOOGLE_CLIENT_ID>>',
     Scopes: [
       'https://www.googleapis.com/auth/spreadsheets',
       'https://www.googleapis.com/auth/drive.metadata.readonly',
