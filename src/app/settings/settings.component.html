@@ -1,3 +1,28 @@
-<p>
-  settings works!
-</p>
+<!-- App Settings -->
+<mat-card>
+  <mat-form-field>
+    <input matInput [(ngModel)]="fields.google_cliend_id" placeholder="Google Client ID">
+  </mat-form-field>
+  <br>
+  <mat-form-field>
+    <input matInput [(ngModel)]="fields.spreadsheet_id" placeholder="Spreadsheet ID">
+  </mat-form-field>
+  <br>
+  <mat-form-field>
+    <input matInput [(ngModel)]="fields.sheet_title" placeholder="Sheet Title">
+  </mat-form-field>
+</mat-card>
+
+<!-- Google Sign-in -->
+<mat-card>
+  <div>
+    Sign in with Google
+  </div>
+  <!-- <div id="sign-in-area" class="alert alert-warning" class="g-signin2" data-onsuccess="onSignIn"></div>
+  <div id="sign-out-area" style="display:none;">
+    <a href="javascript:GoogleHelper.signOut();">Sign Out</a>
+  </div> -->
+  <br>
+  <button id="googleBtn" mat-button mat-raised-button >Sign In</button>
+  <button mat-button mat-raised-button *ngIf="googleAuthService.isSignedIn" (click)="onSignOutClicked()">Sign Out</button>
+</mat-card>

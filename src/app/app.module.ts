@@ -10,6 +10,7 @@ import { MatToolbarModule, MatButtonModule } from '@angular/material';
 import { SettingsComponent } from './settings/settings.component';
 import { AppRoutingModule } from './app-routing/app-routing.module';
 import { MaterialModule } from './material/material.module';
+import { GoogleAuthService } from './google-auth.service';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { MaterialModule } from './material/material.module';
     MaterialModule,
     AppRoutingModule,
   ],
-  providers: [],
+  providers: [GoogleAuthService],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+
+export class AppModule { }
