@@ -1,21 +1,25 @@
-import { Component } from '@angular/core';
-import { OnDestroy, AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
+import { Component, OnDestroy, AfterViewInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { GoogleAuthService } from './google-auth.service';
 import { Config } from './config';
+// import { MessagesService } from './messages.service';
+import { MessageService } from 'primeng/components/common/messageservice';
+import { Message } from 'primeng/components/common/message';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
 
 export class AppComponent implements OnDestroy, AfterViewInit {
-  title = 'app';
+  messages: string;
   subscriptionGoogleUser: Subscription;
+  msgs: Message[];
 
-  constructor(private googleAuthService: GoogleAuthService) {
+  constructor(private googleAuthService: GoogleAuthService, private messageService: MessageService) {
     this.subscriptionGoogleUser = this.googleAuthService.googleUser$.subscribe(this.onGoogleUser);
+    this.msgs = [];
   }
 
   onGoogleUser(googleUser: gapi.auth2.GoogleUser) {
@@ -28,7 +32,11 @@ export class AppComponent implements OnDestroy, AfterViewInit {
       scope: Config.GoogleAuth.Scopes.join(' '),
     };
 
-    this.googleAuthService.initAuth2Flow();
+    this.googleAuthService.discoveryDocs = Config.GoogleApiDiscoveryDocs;
+
+    this.googleAuthService.initAuth2Flow().catch((error) => {
+      this.messages = String(error);
+    });
   }
 
   ngOnDestroy(): void {

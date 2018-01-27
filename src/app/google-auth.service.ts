@@ -3,6 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subject } from 'rxjs/Subject';
 import { NgZone } from '@angular/core';
+import { Config } from './config';
 
 type Action<T> = (param: T) => void;
 
@@ -17,8 +18,9 @@ export class GoogleAuthService {
   public initCompleted = false;
 
   public clientConfig: gapi.auth2.ClientConfig;
+  public discoveryDocs: string[];
 
-  constructor(private zone: NgZone) {
+  constructor(private _zone: NgZone) {
   }
 
   async initAuth2Flow() {
@@ -27,8 +29,8 @@ export class GoogleAuthService {
     }
 
     await _initAuth2Flow(
-      this.clientConfig,
-      (x) => this.zone.run(() => this.onGoogleSignIn(x))
+      this.clientConfig, this.discoveryDocs,
+      (x) => this._zone.run(() => this.onGoogleSignIn(x))
     );
 
     this.initCompleted = true;
@@ -53,10 +55,15 @@ export class GoogleAuthService {
   }
 }
 
-async function _initAuth2Flow(clientConfig: gapi.auth2.ClientConfig, onSignInStateChanged?: Action<gapi.auth2.GoogleUser>) {
+async function _initAuth2Flow(
+  clientConfig: gapi.auth2.ClientConfig, discoveryDocs: string[], onSignInStateChanged?: Action<gapi.auth2.GoogleUser>) {
   await new Promise((resolve, reject) => {
     console.log('Loading gapi...');
-    gapi.load('auth2', resolve);
+    gapi.load('auth2:client', resolve);
+  });
+
+  gapi.client.init({
+    discoveryDocs: discoveryDocs,
   });
 
   const auth2 = gapi.auth2.init(clientConfig);

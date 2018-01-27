@@ -1,21 +1,23 @@
-<mat-card>
-  <!-- Input fields -->
-  <mat-form-field>
-    <input matInput [(ngModel)]="fields.date" placeholder="Date">
-  </mat-form-field>
-  <br>
-  <mat-form-field>
-    <input matInput [(ngModel)]="fields.category" placeholder="Category">
-  </mat-form-field>
-  <br>
-  <mat-form-field>
-    <input matInput [(ngModel)]="fields.sum" placeholder="Sum">
-  </mat-form-field>
-  <br>
-  <mat-form-field>
-    <textarea matInput matTextareaAutosize [(ngModel)]="fields.details" placeholder="Details"></textarea>
-  </mat-form-field>
-  <div>
-    <button mat-raised-button (click)="onSubmit()" mat-button>Submit</button>
-  </div>
-</mat-card>
+<form #submitForm="ngForm" [ngFormOptions]="{updateOn: 'change'}">
+  <mat-card class="pad-sm">
+    <!-- Input fields -->
+    <mat-form-field>
+      <input matInput ngModel name="date" placeholder="Date">
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+      <input matInput ngModel name="category" placeholder="Category">
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+      <input matInput ngModel name="sum" placeholder="Sum">
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+      <textarea matInput ngModel matTextareaAutosize name="details" placeholder="Details"></textarea>
+    </mat-form-field>
+    <div>
+      <button mat-raised-button (click)="onSubmit()" mat-button>Submit</button>
+    </div>
+  </mat-card>
+</form>

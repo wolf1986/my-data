@@ -2,11 +2,14 @@
   <mat-toolbar-row>
     <span>GSheet Form</span>
 
-    <span style="flex: 1 1 auto;"></span>
+    <span fxFlex></span>
 
     <button [routerLink]="['./']" mat-button>Submit</button>
     <button [routerLink]="['./settings']" mat-button>Settings</button>
+
+
   </mat-toolbar-row>
 </mat-toolbar>
-
 <router-outlet></router-outlet>
+<p-growl sticky="true"></p-growl>
+<!-- <p-messages [(value)]="msgs"></p-messages> -->
