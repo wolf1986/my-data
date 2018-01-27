@@ -16,7 +16,7 @@
       Sign in with Google:
     </div>
     <br>
-    <button id="googleBtn" mat-button mat-raised-button *ngIf="!googleAuthService.isSignedIn">Sign In</button>
-    <button mat-button mat-raised-button *ngIf="googleAuthService.isSignedIn" (click)="onSignOutClicked()">Sign Out</button>
+    <button id="googleBtn" mat-button mat-raised-button [hidden]="googleAuthService.isSignedIn">Sign In</button>
+    <button mat-button mat-raised-button [hidden]="!googleAuthService.isSignedIn" (click)="onSignOutClicked()">Sign Out</button>
   </mat-card>
 </form>

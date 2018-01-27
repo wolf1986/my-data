@@ -13,17 +13,24 @@ import { Message } from 'primeng/components/common/message';
 })
 
 export class AppComponent implements OnDestroy, AfterViewInit {
-  messages: string;
   subscriptionGoogleUser: Subscription;
   msgs: Message[];
 
   constructor(private googleAuthService: GoogleAuthService, private messageService: MessageService) {
-    this.subscriptionGoogleUser = this.googleAuthService.googleUser$.subscribe(this.onGoogleUser);
-    this.msgs = [];
+    this.subscriptionGoogleUser = this.googleAuthService.googleUser$.subscribe(this.onGoogleUser.bind(this));
   }
 
   onGoogleUser(googleUser: gapi.auth2.GoogleUser) {
-    console.log(googleUser);
+    if (googleUser.isSignedIn()) {
+      const greet_message = 'Welcome ' + googleUser.getBasicProfile().getName() + '!';
+      this.messageService.add(
+        { severity: 'success', summary: 'Google Authentication', detail: greet_message }
+      );
+    } else {
+      this.messageService.add(
+        { severity: 'warn', summary: 'Google Authentication', detail: 'Not signed in !' }
+      );
+    }
   }
 
   ngAfterViewInit() {
@@ -35,8 +42,15 @@ export class AppComponent implements OnDestroy, AfterViewInit {
     this.googleAuthService.discoveryDocs = Config.GoogleApiDiscoveryDocs;
 
     this.googleAuthService.initAuth2Flow().catch((error) => {
-      this.messages = String(error);
+      this.messageService.add(
+        { severity: 'error', summary: 'Google Authentication', detail: String(error) }
+      );
     });
+
+    // this.messageService.addAll([
+    //   { severity: 'success', summary: 'Service Message', detail: 'Via MessageService' },
+    //   { severity: 'info', summary: 'Info Message', detail: 'Via MessageService' }
+    // ]);
   }
 
   ngOnDestroy(): void {

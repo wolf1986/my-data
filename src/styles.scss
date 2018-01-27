@@ -34,3 +34,6 @@ $typography: mat-typography-config(
   background-color: mat-color($warn);
 }
 
+[hidden] {
+  display: none !important;
+}
