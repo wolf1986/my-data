@@ -1,7 +1,19 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { GoogleSheetHelper } from '../google_sheet_helper';
-import { LocalStorageService } from 'angular-2-local-storage';
+import { Subscription } from 'rxjs/Subscription';
+
+import * as moment from 'moment';
+import * as _ from 'lodash';
+import { AppService } from '../app.service';
+import { GoogleSheetHelper } from '../../google-utils/google_sheet_helper';
+
+export class ReportRow {
+  date = moment();
+  category = '';
+  sumVera = '';
+  sumWilly = '';
+  details = '';
+}
 
 @Component({
   selector: 'app-submit-form',
@@ -9,26 +21,37 @@ import { LocalStorageService } from 'angular-2-local-storage';
   styleUrls: ['./submit-form.component.scss'],
 })
 
-export class SubmitFormComponent implements OnInit {
-  @ViewChild('submitForm') form: NgForm;
+export class SubmitFormComponent {
+  public reportRow = new ReportRow();
 
-  constructor(private localStorage: LocalStorageService) {
-  }
-
-  ngOnInit() { }
+  constructor(public appService: AppService) { }
 
   async onSubmit() {
-    const settings = this.localStorage.get('settings');
+    try {
+      const result = await GoogleSheetHelper.appendRows(
+        this.appService.settings.spreadsheet_id, this.appService.settings.range,
+        [
+          this.reportRow.date.format('YYYY-MM-DD'),
+          this.reportRow.category,
+          this.reportRow.sumVera,
+          this.reportRow.sumWilly,
+          this.reportRow.details,
+        ]
+      );
 
+      console.log('Form submitted successfully:');
+      console.log(result);
+      this.appService.messageService.add(
+        { severity: 'success', summary: 'Row appended', detail: 'Updated range: <br><br>' + result.result.updates.updatedRange }
+      );
 
-    const form_values = this.form.control.value;
-    console.log(form_values);
-
-    await GoogleSheetHelper.appendRows(settings['spreadsheet_id'], settings['range'], [
-      form_values['date'],
-      form_values['category'],
-      form_values['sum'],
-      form_values['details'],
-    ]);
+    } catch (error) {
+      console.log('Error while submitting form:');
+      console.error(error);
+      const full_message = `"${error.result.error.message}"<br><br>Please make sure that the settings are correct, and try again later`;
+      this.appService.messageService.add(
+        { severity: 'error', summary: 'Form Submission Failed', detail: full_message }
+      );
+    }
   }
 }

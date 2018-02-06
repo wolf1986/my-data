@@ -6,9 +6,8 @@
     });
 */
 
-declare var gapi: any;
-
 export namespace GoogleSheetHelper {
+  declare const gapi: any;
   export async function getRows(spreadsheetId, rangeSearch) {
     // Get values of range in sheet
     const rangeQueryResult = await gapi.client.sheets.spreadsheets.values.get({

@@ -1,22 +1,21 @@
-<form #settingsForm="ngForm" [ngFormOptions]="{updateOn: 'change'}">
-  <!-- App Settings -->
-  <mat-card class="pad-sm">
-    <mat-form-field>
-      <input matInput ngModel placeholder="Spreadsheet ID" name="spreadsheet_id">
-    </mat-form-field>
-    <br>
-    <mat-form-field>
-      <input matInput ngModel placeholder="Range" name="range">
-    </mat-form-field>
-  </mat-card>
+<mat-card class="pad-sm">
+  <mat-form-field>
+    <input matInput [(ngModel)]="settings.spreadsheet_id" placeholder="Spreadsheet ID">
+  </mat-form-field>
+  <br>
+  <mat-form-field>
+    <input matInput [(ngModel)]="settings.range" placeholder="Range">
+  </mat-form-field>
+  <br>
+  <button mat-button mat-raised-button (click)="onSave()">Save !</button>
+</mat-card>
 
-  <!-- Google Sign-in -->
-  <mat-card class="pad-sm">
-    <div>
-      Sign in with Google:
-    </div>
-    <br>
-    <button id="googleBtn" mat-button mat-raised-button [hidden]="googleAuthService.isSignedIn">Sign In</button>
-    <button mat-button mat-raised-button [hidden]="!googleAuthService.isSignedIn" (click)="onSignOutClicked()">Sign Out</button>
-  </mat-card>
-</form>
+<!-- Google Sign-in -->
+<mat-card class="pad-sm">
+  <div>
+    Sign in with Google:
+  </div>
+  <br>
+  <button id="googleBtn" mat-button mat-raised-button [hidden]="appService.authService.isSignedIn">Sign In</button>
+  <button mat-button mat-raised-button [hidden]="!appService.authService.isSignedIn" (click)="onSignOutClicked()">Sign Out</button>
+</mat-card>

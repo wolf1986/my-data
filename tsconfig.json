@@ -7,10 +7,17 @@
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "es5",
     "typeRoots": [
-      "node_modules/@types"
+      "../node_modules/@types"
     ],
+    "types": [
+      "gapi",
+      "gapi.auth2",
+      "gapi.client",
+      "gapi.client.sheets",
+      "gapi.client.drive"
+    ],
+    "target": "es5",
     "lib": [
       "es2017",
       "dom"

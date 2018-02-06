@@ -1,23 +1,35 @@
-<form #submitForm="ngForm" [ngFormOptions]="{updateOn: 'change'}">
-  <mat-card class="pad-sm">
-    <!-- Input fields -->
-    <mat-form-field>
-      <input matInput ngModel name="date" placeholder="Date">
-    </mat-form-field>
-    <br>
-    <mat-form-field>
-      <input matInput ngModel name="category" placeholder="Category">
-    </mat-form-field>
-    <br>
-    <mat-form-field>
-      <input matInput ngModel name="sum" placeholder="Sum">
-    </mat-form-field>
-    <br>
-    <mat-form-field>
-      <textarea matInput ngModel matTextareaAutosize name="details" placeholder="Details"></textarea>
-    </mat-form-field>
-    <div>
-      <button mat-raised-button (click)="onSubmit()" mat-button>Submit</button>
-    </div>
-  </mat-card>
-</form>
+<mat-card class="pad-sm">
+  <!-- Input fields -->
+  <mat-form-field>
+    <input matInput [matDatepicker]="datepicker" [(ngModel)]="reportRow.date">
+    <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+    <mat-datepicker #datepicker></mat-datepicker>
+  </mat-form-field>
+  <br>
+  <mat-form-field class="example-full-width">
+    <input type="text" placeholder="Category" matInput [matAutocomplete]="autoComplete" [(ngModel)]="reportRow.category">
+    <mat-autocomplete #autoComplete="matAutocomplete">
+      <mat-option *ngFor="let option of appService.categorySuggestions" [value]="option">
+        {{ option }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  <br>
+  <mat-form-field>
+    <input matInput placeholder="Sum Vera" [(ngModel)]="reportRow.sumVera">
+  </mat-form-field>
+  <br>
+  <mat-form-field>
+    <input matInput placeholder="Sum Willy" [(ngModel)]="reportRow.sumWilly">
+  </mat-form-field>
+  <br>
+  <mat-form-field>
+    <textarea matInput matTextareaAutosize placeholder="Details" [(ngModel)]="reportRow.details"></textarea>
+  </mat-form-field>
+  <div>
+    <button mat-raised-button (click)="onSubmit()" mat-button>Submit</button>
+  </div>
+</mat-card>
+
+<mat-card>
+</mat-card>

@@ -3,17 +3,17 @@ import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subject } from 'rxjs/Subject';
 import { NgZone } from '@angular/core';
-import { Config } from './config';
 
 type Action<T> = (param: T) => void;
 
 @Injectable()
 export class GoogleAuthService {
-  private _googleUserSource = new Subject<gapi.auth2.GoogleUser>();
+  private _googleUser = new Subject<gapi.auth2.GoogleUser>();
   private _deferredInitCompleted = new Deferred();
 
-  public googleUser$ = this._googleUserSource.asObservable();
+  public googleUser$ = this._googleUser.asObservable();
   public promiseInitCompleted = this._deferredInitCompleted.promise;
+  public actionBeforeInitCompleted?: () => Promise<void>;
   public isSignedIn = false;
   public initCompleted = false;
 
@@ -34,11 +34,16 @@ export class GoogleAuthService {
     );
 
     this.initCompleted = true;
+    await this.actionBeforeInitCompleted();
+
     this._deferredInitCompleted.resolve();
   }
 
   public onGoogleSignIn(googleUser: gapi.auth2.GoogleUser) {
-    this._googleUserSource.next(googleUser);
+    setTimeout(() => {
+      this._googleUser.next(googleUser);
+    });
+
     this.isSignedIn = googleUser.isSignedIn();
 
     if (!this.isSignedIn) {
@@ -56,27 +61,47 @@ export class GoogleAuthService {
 }
 
 async function _initAuth2Flow(
-  clientConfig: gapi.auth2.ClientConfig, discoveryDocs: string[], onSignInStateChanged?: Action<gapi.auth2.GoogleUser>) {
+  clientConfig: gapi.auth2.ClientConfig, discoveryDocs: string[],
+  onSignInStateChanged?: Action<gapi.auth2.GoogleUser>
+) {
+  if (!onSignInStateChanged) {
+    onSignInStateChanged = (x) => { };
+  }
+
   await new Promise((resolve, reject) => {
     console.log('Loading gapi...');
-    gapi.load('auth2:client', resolve);
+    gapi.load('client:auth2', resolve);
   });
 
-  gapi.client.init({
+  await gapi.client.init({
     discoveryDocs: discoveryDocs,
   });
 
-  const auth2 = gapi.auth2.init(clientConfig);
-
   console.log('Waiting for gapi.auth2.init() ...');
+  const auth2 = gapi.auth2.init(clientConfig);
   await auth2.then(null, null);
 
-  console.log('GooglAuth initialization finished !');
+  console.log('Google Auth initialization finished !');
+
+  let _previous_user_id = null;
+  function _onSignInStateChangedWrapper(user: gapi.auth2.GoogleUser) {
+    if (user.isSignedIn() && _previous_user_id === user.getId()) {
+      return;
+    }
+
+    if (!user.isSignedIn()) {
+      _previous_user_id = null;
+    } else {
+      _previous_user_id = user.getId();
+    }
+
+    onSignInStateChanged(user);
+  }
 
   if (onSignInStateChanged) {
-    auth2.currentUser.listen(onSignInStateChanged);
+    auth2.currentUser.listen(_onSignInStateChangedWrapper);
 
-    onSignInStateChanged(auth2.currentUser.get());
+    _onSignInStateChangedWrapper(auth2.currentUser.get());
   }
 }
 
