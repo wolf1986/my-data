@@ -31,5 +31,8 @@
   </div>
 </mat-card>
 
-<mat-card>
+<mat-card class="pad-sm">
+  Preview of table:
+
+  <app-sheet-preview [data]="appService.data_source_rows" [column-names]="appService.data_source_columns"></app-sheet-preview>
 </mat-card>

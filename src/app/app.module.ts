@@ -22,6 +22,7 @@ import { MessageService } from 'primeng/components/common/messageservice';
 import { AppService } from './app.service';
 import { HttpClientModule } from '@angular/common/http';
 import { GoogleAuthService } from '../google-utils/google-auth.service';
+import { SheetPreviewComponent } from './sheet-preview/sheet-preview.component';
 
 const MY_FORMATS = {
   parse: {
@@ -36,7 +37,7 @@ const MY_FORMATS = {
 };
 
 @NgModule({
-  declarations: [AppComponent, SubmitFormComponent, SettingsComponent],
+  declarations: [AppComponent, SubmitFormComponent, SettingsComponent, SheetPreviewComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

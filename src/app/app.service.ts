@@ -9,6 +9,7 @@ import { GoogleAuthService } from '../google-utils/google-auth.service';
 
 import * as _ from 'lodash';
 import 'rxjs/add/operator/toPromise';
+import { GoogleSheetHelper } from '../google-utils/google_sheet_helper';
 
 export class AppSettingsData {
   spreadsheet_id = '';
@@ -84,6 +85,19 @@ export class AppService implements OnDestroy {
     }
   }
 
+  async loadTableData() {
+    if (this.authService.isSignedIn && this.settings.spreadsheet_id !== '') {
+      const rangeQueryResult = await gapi.client.sheets.spreadsheets.values.get({
+        spreadsheetId: this.settings.spreadsheet_id,
+        range: 'Expenses - Vera!A:Z',
+      });
+
+      console.log('Loaded table-data:', rangeQueryResult);
+      this.data_source_columns = rangeQueryResult.result.values[0];
+      this.data_source_rows = GoogleSheetHelper.rangeToObject(rangeQueryResult.result);
+    }
+  }
+
   async loadAutoCompleteData() {
     if (this.authService.isSignedIn && this.settings.spreadsheet_id !== '') {
       const rangeQueryResult = await gapi.client.sheets.spreadsheets.values.get({
@@ -101,6 +115,7 @@ export class AppService implements OnDestroy {
     if (googleUser.isSignedIn()) {
       await this.loadSettings();
       this.loadAutoCompleteData();
+      this.loadTableData();
 
       const greet_message = 'Welcome ' + googleUser.getBasicProfile().getName() + '!';
       this.messageService.add(
@@ -117,4 +132,7 @@ export class AppService implements OnDestroy {
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
   }
+
+  data_source_columns = [];
+  data_source_rows = [];
 }

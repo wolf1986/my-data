@@ -72,7 +72,7 @@ export namespace GoogleSheetHelper {
    */
   export function rangeToObject(rangeObject) {
     if (rangeObject.values.length === 0) {
-      return {};
+      return [{}];
     }
 
     // Read Headers
