@@ -1,0 +1,76 @@
+<ion-header>
+    <custom-toolbar></custom-toolbar>
+</ion-header>
+<ion-content>
+    <ion-row padding>
+        <b>Messages: </b>
+    </ion-row>
+    <ion-card [color]="appProvider.authService.isSignedIn? 'light-ok' : 'light'">
+        <ion-item [color]="appProvider.authService.isSignedIn? 'light-ok' : 'light'" (click)="cards_state['google_account'] = !cards_state['google_account']">
+            <b>Google Account</b>
+            <button ion-button clear color="dark" item-end icon-only>
+                <ion-icon name="arrow-dropdown-circle" *ngIf="!cards_state['google_account']"> </ion-icon>
+                <ion-icon name="arrow-dropup-circle" *ngIf="cards_state['google_account']"></ion-icon>
+            </button>
+        </ion-item>
+        <ion-card-content *ngIf="isOpen('google_account', !appProvider.authService.isSignedIn)">
+            This application requires you to sign in with a Google Account
+        </ion-card-content>
+        <ion-row *ngIf="cards_state['google_account']">
+            <ion-col>
+                <button ion-button icon-left clear small (click)="cards_state['google_account'] = false">
+                    <ion-icon name="close-circle"></ion-icon>
+                    <div>Collapse message</div>
+                </button>
+            </ion-col>
+        </ion-row>
+    </ion-card>
+
+    <ion-card [color]="appProvider.appSettings.SpreadsheetId ? 'light-ok' : 'light'">
+        <ion-item [color]="appProvider.appSettings.SpreadsheetId ? 'light-ok' : 'light'" (click)="cards_state['settings_ok'] = !cards_state['settings_ok']">
+            <b>Settings Spreadsheet</b>
+            <button ion-button clear color="dark" item-end icon-only>
+                <ion-icon name="arrow-dropdown-circle" *ngIf="!cards_state['settings_ok']"> </ion-icon>
+                <ion-icon name="arrow-dropup-circle" *ngIf="cards_state['settings_ok']"></ion-icon>
+            </button>
+        </ion-item>
+        <ion-card-content *ngIf="isOpen('settings_ok', !appProvider.appSettings.SpreadsheetId)">
+            <p>
+                A google spreadsheet is used to define different forms and settings.
+            </p>
+            <br>
+            <p>
+                Please use the Settings page to provide a link to your form definitions spreadsheet. Each sheet in the spreadsheet that starts
+                with `{{Config.Drive.SheetFormPrefix}}` will be loaded as form.
+            </p>
+            <br>
+            <p>
+                All the settings are being saved in a file named `{{Config.Drive.SettingsFileName}}`. Initially the file will be saved in
+                the root of your Google-Drive but you can move the file to any desired location, as long as you keep the
+                name.
+            </p>
+            <p text-center>
+                <button ion-button [navPush]="'Settings'">Go to Settings</button>
+            </p>
+        </ion-card-content>
+        <ion-row *ngIf="cards_state['settings_ok']">
+            <ion-col>
+                <button ion-button icon-left clear small (click)="cards_state['settings_ok'] = false">
+                    <ion-icon name="close-circle"></ion-icon>
+                    <div>Collapse message</div>
+                </button>
+            </ion-col>
+        </ion-row>
+    </ion-card>
+
+    <ion-card color="light">
+        <ion-card-header>
+            <b>Submit Rows</b>
+        </ion-card-header>
+        <ion-card-content>
+            After loading settings, your defined forms are available at the menu. New forms will be available at the menu after reloading
+            the app.
+        </ion-card-content>
+    </ion-card>
+
+</ion-content>

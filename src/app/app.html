@@ -1,0 +1,39 @@
+<ion-split-pane>
+  <ion-menu [content]="content">
+    <ion-header>
+      <ion-toolbar  color="primary">
+        <ion-title>Menu</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ion-list>
+        <!-- Application Pages -->
+        <ion-item-group>
+          <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
+            {{p.title}}
+          </button>
+        </ion-item-group>
+
+        <!-- Forms -->
+        <ion-item-group *ngIf="appProvider.formIds.length > 0">
+          <ion-item-divider color="light">User Forms</ion-item-divider>
+          <button menuClose ion-item *ngFor="let formId of appProvider.formIds" (click)="openForm(formId)">
+            {{appProvider.formsSettings[formId].Form.Title}}
+          </button>
+        </ion-item-group>
+
+        <!-- Google Account -->
+        <ion-item-group>
+          <ion-item-divider color="light">Google Account</ion-item-divider>
+          <button menuClose ion-item (click)="appProvider.signIn()" *ngIf="!appProvider.authService.isSignedIn">
+            Sign In...
+          </button>
+          <button menuClose ion-item (click)="appProvider.authService.signOut()" *ngIf="appProvider.authService.isSignedIn">
+            Sign Out !
+          </button>
+        </ion-item-group>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+  <ion-nav [root]="rootPage" #content swipeBackEnabled="false" main></ion-nav>
+</ion-split-pane>

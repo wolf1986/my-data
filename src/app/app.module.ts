@@ -1,65 +1,58 @@
-import { Routes, RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
-import { NgModule } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ErrorHandler, NgModule } from '@angular/core';
+import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { StatusBar } from '@ionic-native/status-bar';
 
-import { AppComponent } from './app.component';
-import { SubmitFormComponent } from './submit-form/submit-form.component';
-import { MatToolbarModule, MatButtonModule, MAT_DATE_FORMATS } from '@angular/material';
-import { SettingsComponent } from './settings/settings.component';
-import { AppRoutingModule } from './app-routing/app-routing.module';
-import { MaterialModule } from './material/material.module';
+import { MyApp } from './app.component';
+import { HomePage } from '../pages/home/home';
+import { SettingsPage } from '../pages/settings/settings';
 
-import { CovalentMessageModule, CovalentNotificationsModule, CovalentMenuModule, CovalentCommonModule } from '@covalent/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { AvatarModule } from 'ngx-avatar';
 
-import { FlexLayoutModule } from '@angular/flex-layout';
+import { AppProvider } from '../providers/app/app';
+import { GoogleAuthService } from '../lib/google-utils/google-auth.service';
+import { FormDisplayPageModule } from '../pages/form-display/form-display.module';
+import { SettingsPageModule } from '../pages/settings/settings.module';
+import { FormDisplayPage } from '../pages/form-display/form-display';
+import { ComponentsModule } from '../components/components.module';
 
-import { MessagesModule } from 'primeng/messages';
-import { MessageModule } from 'primeng/message';
-import { GrowlModule } from 'primeng/growl';
-import { MessageService } from 'primeng/components/common/messageservice';
-import { AppService } from './app.service';
-import { HttpClientModule } from '@angular/common/http';
-import { GoogleAuthService } from '../google-utils/google-auth.service';
-
-const MY_FORMATS = {
-  parse: {
-    dateInput: 'YYYY-MM-DD',
-  },
-  display: {
-    dateInput: 'YYYY-MM-DD',
-    monthYearLabel: 'MMM YYYY',
-    // dateA11yLabel: 'LL',
-    // monthYearA11yLabel: 'MMMM YYYY',
-  },
+const deepLinkingConfig = {
+  links: [
+    { component: HomePage, name: 'Home', segment: 'home' },
+    { component: SettingsPage, name: 'Settings', segment: 'settings' },
+    { component: FormDisplayPage, name: 'FormDisplay', segment: 'form/:formId' },
+  ]
 };
 
 @NgModule({
-  declarations: [AppComponent, SubmitFormComponent, SettingsComponent],
+  declarations: [
+    MyApp,
+    HomePage,
+  ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    MaterialModule,
-    AppRoutingModule,
-    CovalentCommonModule,
-    CovalentMessageModule,
-    CovalentNotificationsModule,
-    CovalentMenuModule,
-    FlexLayoutModule,
-    MessageModule,
-    MessagesModule,
-    GrowlModule,
-    HttpClientModule,
+    ReactiveFormsModule,
+    AvatarModule,
+    FormDisplayPageModule,
+    SettingsPageModule,
+    ComponentsModule,
+    IonicModule.forRoot(MyApp, {}, deepLinkingConfig),
+  ],
+  bootstrap: [IonicApp],
+  entryComponents: [
+    MyApp,
+    HomePage,
   ],
   providers: [
+    StatusBar,
+    SplashScreen,
+    AppProvider,
     GoogleAuthService,
-    MessageService,
-    AppService,
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
-  ],
-  bootstrap: [AppComponent],
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
+    // { provide: LocationStrategy, useClass: PathLocationStrategy },
+  ]
 })
-
 export class AppModule { }
+  

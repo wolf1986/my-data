@@ -1,0 +1,10 @@
+<ion-header>
+  <custom-toolbar></custom-toolbar>
+</ion-header>
+<ion-content padding>
+  <dynamic-form [controls]="controlsModel" [dateFormat]="appProvider.appSettings.DateFormat" dir="auto"></dynamic-form>
+  <div text-center>
+    <button ion-button (click)="submit()">Submit</button>
+    <button ion-button (click)="resetOriginalControls()">Reset</button>
+  </div>
+</ion-content>

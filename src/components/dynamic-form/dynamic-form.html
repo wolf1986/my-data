@@ -1,0 +1,68 @@
+<ion-list>
+  <ng-template ngFor let-control [ngForOf]="controlsModel" let-i="index">
+    <ion-item text-wrap *ngIf="control.description">
+      <p>
+        {{newlineToBr(control.description)}}
+      </p>
+    </ion-item>
+    <ion-item text-wrap *ngIf="control.descriptionHtml">
+      <p [innerHTML]="control.descriptionHtml">
+      </p>
+    </ion-item>
+    <!-- Text / Textarea -->
+    <ion-item *ngIf="control.type == 'text' || control.type == 'textarea'">
+      <ion-label stacked color="primary">{{control.label}}</ion-label>
+      <ion-textarea *ngIf="control.type == 'textarea'" autosize [placeholder]="control.placeholder? control.placeholder: ''" [(ngModel)]="control.value">
+      </ion-textarea>
+      <ion-input *ngIf="control.type == 'text'" autosize [placeholder]="control.placeholder? control.placeholder: ''" [(ngModel)]="control.value">
+      </ion-input>
+    </ion-item>
+
+    <!-- Select -->
+    <ion-item *ngIf="control.type == 'select'">
+      <ion-label stacked color="primary">{{control.label}}</ion-label>
+      <ion-select [(ngModel)]="control.value" interface="popover">
+        <ion-option *ngFor="let val of control.options" [value]="val">{{val}}</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <!-- Autocomplete (Editing) -->
+    <ion-item *ngIf="control.type == 'autocomplete' && control.editMode">
+      <ion-label stacked color="primary">{{control.label}}</ion-label>
+      <ion-input type="text" *ngIf="control.editMode" [placeholder]="control.placeholder? control.placeholder: ''" [(ngModel)]="control.value">
+      </ion-input>
+      <button ion-button clear color="dark" type="button" item-end icon-only (click)="control.editMode = !control.editMode">
+        <ion-icon name="menu" *ngIf="control.editMode"> </ion-icon>
+        <ion-icon name="add-circle" *ngIf="!control.editMode"> </ion-icon>
+      </button>
+    </ion-item>
+
+    <!-- Autocomplete (Selecting from list) -->
+    <ion-item *ngIf="control.type == 'autocomplete' && !control.editMode">
+      <ion-label stacked color="primary">{{control.label}}</ion-label>
+      <ion-select [(ngModel)]="control.value" interface="popover">
+        <ion-option *ngFor="let val of control.options" [value]="val">{{val}}</ion-option>
+      </ion-select>
+      <button ion-button clear color="dark" type="button" item-end icon-only (click)="control.editMode = !control.editMode">
+        <ion-icon name="menu" *ngIf="control.editMode"> </ion-icon>
+        <ion-icon name="add-circle" *ngIf="!control.editMode"> </ion-icon>
+      </button>
+    </ion-item>
+
+    <!-- Date -->
+    <ion-item *ngIf="control.type == 'date'">
+      <ion-label stacked color="primary">{{control.label}}</ion-label>
+      <ion-input #input type="text" [(ngModel)]="control.value"></ion-input>
+      <button ion-button clear color="dark" type="button" item-end icon-only (click)="setDate(input, 'value')">
+        <ion-icon name="calendar"></ion-icon>
+      </button>
+    </ion-item>
+
+    <!-- Time -->
+    <ion-item *ngIf="control.type == 'time'">
+      <ion-label stacked color="primary">{{control.label}}</ion-label>
+      <ion-datetime displayFormat="HH:mm" pickerFormat="HH:mm" [(ngModel)]="control.valueMagic" (ngModelChange)="control.value = formatTime(control.valueMagic)"></ion-datetime>
+    </ion-item>
+
+  </ng-template>
+</ion-list>
