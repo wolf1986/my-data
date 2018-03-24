@@ -1,18 +1,8 @@
-import * as _ from 'lodash';
-
 export type Action<T> = (param?: T) => void;
-
-export class DefaultDict<T> {
-  constructor(private _factory: _.Function0<T>) { }
-
-  get(key): T {
-    if (!this.hasOwnProperty(key)) { this[key] = this._factory(); }
-    return this[key];
-  }
-}
+export type Dictionary<T> = { [key: string]: T };
 
 export function objectClear(targetObject) {
-  Object.keys(targetObject).forEach(function (key) {
+  Object.keys(targetObject).forEach(function(key) {
     delete targetObject[key];
   });
 }
@@ -37,22 +27,28 @@ export class Deferred {
   }
 }
 
-export function ajaxRequestRaw(url, method?: string, data?: any, funcChangeReqBeforeSend?: Action<XMLHttpRequest>)
-  : Promise<XMLHttpRequest> {
+export function ajaxRequestRaw(
+  url,
+  method?: string,
+  data?: any,
+  funcChangeReqBeforeSend?: Action<XMLHttpRequest>
+): Promise<XMLHttpRequest> {
   /**
-    * Wrapper for XMLHttpRequest with promises.
-    * @param method - GET or POST
-    * @param data - Only for POST requests; Will be JSON.stringify before send
-    * @param funcChangeReqBeforeSend - Hook to change request before send; i.e. Add headers
-    */
+   * Wrapper for XMLHttpRequest with promises.
+   * @param method - GET or POST
+   * @param data - Only for POST requests; Will be JSON.stringify before send
+   * @param funcChangeReqBeforeSend - Hook to change request before send; i.e. Add headers
+   */
 
-  if (!method) { method = 'GET'; }
+  if (!method) {
+    method = "GET";
+  }
 
   return new Promise((resolve, reject) => {
     const req = new XMLHttpRequest();
 
     req.open(method, url);
-    req.onload = function () {
+    req.onload = function() {
       if (req.status === 200) {
         resolve(req);
       } else {
@@ -60,15 +56,17 @@ export function ajaxRequestRaw(url, method?: string, data?: any, funcChangeReqBe
       }
     };
 
-    req.onerror = function () {
-      reject(new Error('Network error'));
+    req.onerror = function() {
+      reject(new Error("Network error"));
     };
 
-    if (method === 'POST' && data) {
-      req.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+    if (method === "POST" && data) {
+      req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     }
 
-    if (funcChangeReqBeforeSend) { funcChangeReqBeforeSend(req); }
+    if (funcChangeReqBeforeSend) {
+      funcChangeReqBeforeSend(req);
+    }
 
     req.send(JSON.stringify(data));
   });
@@ -79,18 +77,20 @@ export function prettyStringify(obj) {
 }
 
 export function getFilenameWithoutExtension(filename) {
-  return filename.replace(/(.*)\.[^/.]+$/, '$1');
+  return filename.replace(/(.*)\.[^/.]+$/, "$1");
 }
 
 export function getFilenameExtension(filename) {
-  filename = '' + filename;
-  const extension = filename.split('.').pop();
-  if (extension === filename) { return ''; }
-  return '.' + extension;
+  filename = "" + filename;
+  const extension = filename.split(".").pop();
+  if (extension === filename) {
+    return "";
+  }
+  return "." + extension;
 }
 
 export function regexEscape(str) {
-  return str.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+  return str.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 }
 
 export function replaceAll(target, search, replacement) {
@@ -99,7 +99,7 @@ export function replaceAll(target, search, replacement) {
 
 export function trim(str, listChars) {
   const listCharsRegex = regexEscape(listChars);
-  return str.replace(new RegExp(`^[${listCharsRegex}]+|[${listCharsRegex}]+$`, 'g'), '');
+  return str.replace(new RegExp(`^[${listCharsRegex}]+|[${listCharsRegex}]+$`, "g"), "");
 }
 
 export function getGoogleThumbnailUrl(fileId, width = 640) {

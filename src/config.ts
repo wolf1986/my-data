@@ -24,7 +24,7 @@ export let Config = {
 
   App: {
     DefaultSettings: {
-      SpreadsheetId: 'https://docs.google.com/spreadsheets/d/1WzYyjRmW70bAfUWYMoJEkeVBhiZYwMcwhIklSQT402w',
+      SpreadsheetId: '',
       DateFormat: 'YYYY-MM-DD',
     },
   },

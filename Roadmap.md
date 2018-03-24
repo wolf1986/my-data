@@ -7,10 +7,9 @@
 
 - **Data Input**
   - Support attachment of photo
-  - Support currency
 
 - **Setup**
-  - Limit permissions to bare minimum
+  - Limit google permissions to bare minimum
   - Create new table from template
 
 - **Data Manipulation**

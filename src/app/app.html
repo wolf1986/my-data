@@ -1,7 +1,7 @@
 <ion-split-pane>
   <ion-menu [content]="content">
     <ion-header>
-      <ion-toolbar  color="primary">
+      <ion-toolbar color="primary">
         <ion-title>Menu</ion-title>
       </ion-toolbar>
     </ion-header>
@@ -16,10 +16,18 @@
 
         <!-- Forms -->
         <ion-item-group *ngIf="appProvider.formIds.length > 0">
-          <ion-item-divider color="light">User Forms</ion-item-divider>
+          <ion-item-divider color="light">
+            User Forms
+            <button ion-button clear color="dark" type="button" item-end icon-only (click)="refreshAllForms()">
+              <ion-icon name="refresh"> </ion-icon>
+            </button>
+          </ion-item-divider>
           <button menuClose ion-item *ngFor="let formId of appProvider.formIds" (click)="openForm(formId)">
-            {{appProvider.formsSettings[formId].Form.Title}}
-          </button>
+            {{appProvider.pageSettings[formId].Form.Title}}
+            <button ion-button clear color="dark" type="button" item-end icon-only (click)="appProvider.loadSingleFormSettings(formId)">
+                <ion-icon name="refresh"> </ion-icon>
+              </button>
+            </button>
         </ion-item-group>
 
         <!-- Google Account -->

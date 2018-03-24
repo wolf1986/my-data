@@ -67,10 +67,10 @@ export namespace GoogleSheetHelper {
     });
   }
 
-  export function spreadsheetMetaToSheetIds(spreadsheetMetadata) {
+  export function spreadsheetMetaByTitle(spreadsheetMetadata) {
     const sheetIdByTitle = {};
     for (const sheet of spreadsheetMetadata.result.sheets) {
-      sheetIdByTitle[sheet.properties.title] = sheet.properties.sheetId;
+      sheetIdByTitle[sheet.properties.title] = sheet.properties;
     }
 
     return sheetIdByTitle;

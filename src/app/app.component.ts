@@ -8,8 +8,6 @@ import { SettingsPage } from '../pages/settings/settings';
 import { AppProvider } from '../providers/app/app';
 import { FormDisplayPage } from '../pages/form-display/form-display';
 
-import * as detect_browser from 'detect-browser'
-
 @Component({
   templateUrl: 'app.html'
 })
@@ -27,21 +25,13 @@ export class MyApp {
     ]
 
     platform.ready().then(() => {
-      const b = detect_browser.detect();
-      console.log(b);
-      
-      statusBar.styleDefault();
-      splashScreen.hide();
-
-      this.appProvider.initGoogleService();
+      this.appProvider.signIn();
+      //   statusBar.styleDefault();
+    //   splashScreen.hide();
     });
   }
 
   openPage(page) {
-    // this.zone.run(() => {
-    //   this.navCtrl.setRoot(TabsPage);
-    // });
-
     this.nav.setRoot(page.component);
   }
 
@@ -49,6 +39,10 @@ export class MyApp {
     this.nav.setRoot(FormDisplayPage, {
       formId: formId
     });
+  }
+
+  refreshAllForms() {
+    this.appProvider.loadSettings(false);
   }
 }
 

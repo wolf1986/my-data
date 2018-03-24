@@ -1,5 +1,13 @@
 # Release Notes
 
+## 2018-03-24 - 0.3.1
+
+- **Setup**
+  - Use spreadsheet URLs instead of ids
+  
+- **UI**
+  - Faster loading of forms using in-browser cache
+
 ## 2018-03-08 - 0.3.0 - Generic spreadsheet data form
 
 - **Setup**
@@ -37,7 +45,8 @@
   - Select sheet Id
   - Save in browser memory
 
-- **Platform** Web version
+- **Platform**
+  - Web version
   - Accessible through URL
 
 - **Data Input**

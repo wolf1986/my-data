@@ -39,14 +39,14 @@ export class FormDisplayPage {
 
   stateChanged(state) {
     if (state === 'ready') {
-      this.controlsModel = this.createDynamicFormControls(this.appProvider.formsSettings[this.formId]);
+      this.controlsModel = this.createDynamicFormControls(this.appProvider.pageSettings[this.formId]);
     } else {
       this.controlsModel = [];
     }
   }
 
   resetOriginalControls() {
-    this.controlsModel = this.createDynamicFormControls(this.appProvider.formsSettings[this.formId]);
+    this.controlsModel = this.createDynamicFormControls(this.appProvider.pageSettings[this.formId]);
   }
 
   async submit() {
@@ -59,7 +59,7 @@ export class FormDisplayPage {
     try {
       const values = this.controlsModel.map(c => c.value);
       await GoogleSheetForm.appendSheetRowWithSettings(
-        values, this.appProvider.formsSettings[this.formId]
+        values, this.appProvider.pageSettings[this.formId]
       );
 
       this.appProvider.toastCtrl
@@ -77,9 +77,9 @@ export class FormDisplayPage {
     loading.dismiss();
   }
 
-  createDynamicFormControls(settings: GoogleSheetForm.Settings) {
+  createDynamicFormControls(settings: GoogleSheetForm.IPageSettings) {
     return settings.FieldNames.map((field_name, i) => {
-      const field = settings.Fields[field_name] as GoogleSheetForm.FieldSettings;
+      const field = settings.Fields[field_name];
       const control: DynamicFormControl = {
         label: field_name,
         type: field.Type.toLowerCase() as any,
@@ -91,7 +91,7 @@ export class FormDisplayPage {
 
       // if (field.DefaultValue !== null) { control['default'] = field.DefaultValue; }
       if (field.DefaultValue !== null) { control.value = field.DefaultValue; }
-      
+
       if (field.DefaultValue === '__USER_NAME__') { control.value = userProfile.getName(); }
       if (field.DefaultValue === '__USER_EMAIL__') { control.value = userProfile.getEmail(); }
 
@@ -104,7 +104,7 @@ export class FormDisplayPage {
       if (['select', 'autocomplete'].includes(control.type) && control.options.length > 0) {
         if (!control.value) {
           control.value = control.options[0];
-        } 
+        }
         if (!control.options.includes(control.value)) {
           control.options = _.sortedUniq([... control.options, control.value].sort());
         }

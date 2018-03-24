@@ -1,6 +1,6 @@
 {
-  "name": "Google Sheet Form",
-  "short_name": "Google Sheet Form",
+  "name": "My-Data",
+  "short_name": "My-Data",
   "start_url": "index.html",
   "display": "standalone",
   "icons": [{
