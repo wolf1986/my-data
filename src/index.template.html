@@ -19,4 +19,13 @@
     <!-- DO NOT touch the following DIV -->
     <div id="q-app"></div>
   </body>
+
+  <script>
+    var gapiLoaded = false;
+    function onGapiLoad() {
+      gapiLoaded = true;
+    }
+  </script>
+  <script src="https://apis.google.com/js/platform.js?onload=onGapiLoad" async defer></script>
+
 </html>

@@ -4,6 +4,7 @@
     "sourceMap": true,
     "target": "es6",
     "strict": true,
+    "noImplicitAny": false,
     "experimentalDecorators": true,
     "module": "esnext",
     "moduleResolution": "node",
