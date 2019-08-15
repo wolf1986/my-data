@@ -20,7 +20,7 @@ module.exports = {
         // https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/eslint-plugin#usage-with-prettier
         'prettier',
         'prettier/@typescript-eslint',
-        'prettier/vue'
+        'prettier/vue',
     ],
 
     plugins: [
@@ -28,7 +28,7 @@ module.exports = {
         '@typescript-eslint',
         // Required to lint *.vue files
         // See https://eslint.vuejs.org/user-guide/#why-doesn-t-it-work-on-vue-file
-        'vue'
+        'vue',
         // Prettier has not been included as plugin to avoid performance impact
         // See https://github.com/typescript-eslint/typescript-eslint/issues/389#issuecomment-509292674
         // Add it as an extension
@@ -48,26 +48,26 @@ module.exports = {
             'plugin:@typescript-eslint/recommended', // Uses the recommended rules from the @typescript-eslint/eslint-plugin
             'plugin:prettier/recommended', // Enables eslint-plugin-prettier and displays prettier errors as ESLint errors. Make sure this is always the last configuration in the extends array.
             'plugin:vue/recommended',
-            'plugin:prettier/recommended'
-        ]
+            'plugin:prettier/recommended',
+        ],
     },
 
     env: {
-        browser: true
+        browser: true,
     },
 
     globals: {
         ga: true, // Google Analytics
         cordova: true,
         __statics: true,
-        process: true
+        process: true,
     },
 
     // add your custom rules here
     rules: {
         'prefer-promise-reject-errors': 'off',
         quotes: ['warn', 'single'],
-        '@typescript-eslint/indent': ['warn', 2],
+        // '@typescript-eslint/indent': ['warn', 2],
         '@typescript-eslint/camelcase': ['warn'],
 
         // allow console.log during development only
@@ -82,7 +82,7 @@ module.exports = {
         // See https://github.com/typescript-eslint/typescript-eslint/issues/501
         // See https://github.com/typescript-eslint/typescript-eslint/issues/493
         '@typescript-eslint/explicit-function-return-type': 'off',
-        '@typescript-eslint/no-explicit-any': 'off'
-
-    }
+        '@typescript-eslint/no-explicit-any': 'off',
+        '@typescript-eslint/camelcase': ['warn', { properties: 'never' }],
+    },
 };

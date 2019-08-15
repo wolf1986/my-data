@@ -6,7 +6,7 @@ module.exports = function(ctx) {
     // Quasar looks for *.js files by default
     sourceFiles: {
       router: 'src/router/index.ts',
-      store: 'src/store/index.ts'
+      store: 'src/store/index.ts',
     },
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
@@ -23,7 +23,7 @@ module.exports = function(ctx) {
       // 'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
 
       'roboto-font', // optional, you are not bound to it
-      'material-icons' // optional, you are not bound to it
+      'material-icons', // optional, you are not bound to it
     ],
 
     framework: {
@@ -50,13 +50,14 @@ module.exports = function(ctx) {
         'QBadge',
         'QTooltip',
         'QSpinner',
-        'QMenu'
+        'QMenu',
+        'QInput',
       ],
 
-      directives: ['Ripple', 'ClosePopup', 'TouchSwipe'],
+      directives: ['Ripple', 'ClosePopup'],
 
       // Quasar plugins
-      plugins: ['Notify', 'Dialog']
+      plugins: ['Notify', 'Dialog'],
     },
 
     supportIE: false,
@@ -75,23 +76,23 @@ module.exports = function(ctx) {
           loader: 'eslint-loader',
           exclude: /node_modules/,
           options: {
-            formatter: require('eslint').CLIEngine.getFormatter('stylish')
-          }
+            formatter: require('eslint').CLIEngine.getFormatter('stylish'),
+          },
         });
-      }
+      },
     },
 
     devServer: {
       // https: true,
       port: 8000,
-      open: true // opens browser window automatically
+      open: true, // opens browser window automatically
     },
 
     // animations: 'all', // --- includes all animations
     animations: [],
 
     ssr: {
-      pwa: false
+      pwa: false,
     },
 
     pwa: {
@@ -109,30 +110,30 @@ module.exports = function(ctx) {
           {
             src: 'statics/icons/icon-128x128.png',
             sizes: '128x128',
-            type: 'image/png'
+            type: 'image/png',
           },
           {
             src: 'statics/icons/icon-192x192.png',
             sizes: '192x192',
-            type: 'image/png'
+            type: 'image/png',
           },
           {
             src: 'statics/icons/icon-256x256.png',
             sizes: '256x256',
-            type: 'image/png'
+            type: 'image/png',
           },
           {
             src: 'statics/icons/icon-384x384.png',
             sizes: '384x384',
-            type: 'image/png'
+            type: 'image/png',
           },
           {
             src: 'statics/icons/icon-512x512.png',
             sizes: '512x512',
-            type: 'image/png'
-          }
-        ]
-      }
+            type: 'image/png',
+          },
+        ],
+      },
     },
 
     cordova: {
@@ -162,7 +163,7 @@ module.exports = function(ctx) {
       builder: {
         // https://www.electron.build/configuration/configuration
         // appId: 'mydata2'
-      }
-    }
+      },
+    },
   };
 };
